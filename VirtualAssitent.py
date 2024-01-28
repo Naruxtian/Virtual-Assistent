@@ -1,10 +1,10 @@
 import speech_recognition as sr
 import pyttsx3
-import pyjokes
 from functions.reproduce import reproduce
 from functions.time import sayTime
 from functions.investigate import investigate
 from functions.joke import tellJoke
+from functions.send_Msg import send_message
 
 assistent_name = 'pal'
 
@@ -61,6 +61,9 @@ def run():
         
         elif 'chiste' in rec:
             tellJoke(talk)
+
+        elif 'envia' in rec:
+            send_message(rec, talk)
 
         elif 'adios' or 'terminar' in rec:
             talk('Hasta luego')
