@@ -15,7 +15,7 @@ def talk(text):
     engine.say(text)
     engine.runAndWait()
 
-talk('Hola, soy Cortana, ¿En qué puedo ayudarte?')
+talk(f"Hola, soy {assistent_name}, ¿En qué puedo ayudarte?")
 
 def listen():
     try:
@@ -38,6 +38,9 @@ def run():
         video = rec.replace('reproduce', '')
         talk('Reproduciendo'+ video)
         pywhatkit.playonyt(video)
-    
+
+    elif 'hora' in rec:
+        hora = datetime.datetime.now().strftime('%I:%M %p')
+        talk('Son las'+ hora)
 
 run()
