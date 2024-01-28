@@ -2,6 +2,7 @@ import speech_recognition as sr
 import pyttsx3
 import pywhatkit
 import datetime
+import wikipedia
 
 assistent_name = 'Cortana'
 
@@ -42,5 +43,11 @@ def run():
     elif 'hora' in rec:
         hora = datetime.datetime.now().strftime('%I:%M %p')
         talk('Son las'+ hora)
+
+    elif 'que es' in rec:
+        search = rec.replace('Qué es', '')
+        talk('Investigando'+ search)
+        info = wikipedia.summary(search, 1)
+        talk(info)
 
 run()
