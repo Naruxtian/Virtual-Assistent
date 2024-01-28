@@ -17,50 +17,62 @@ def talk(text):
     engine.say(text)
     engine.runAndWait()
 
-talk(f"Hola, soy {assistent_name}, ¿En qué puedo ayudarte?")
-
 def listen():
+    status = False
     try:
         with sr.Microphone() as source:
             print('Escuchando...')
+            listener.adjust_for_ambient_noise(source, duration=1)
             voice = listener.listen(source)
-            rec = listener.recognize_google(voice, language="es-US")
-            rec = rec.lower()
+            rec = ""
+            rec = listener.recognize_google(voice, language="es-ES").lower()
+
             if assistent_name in rec:
                 rec = rec.replace(assistent_name, '')
-                print(rec)
+                status = True
+            else:
+                status = False
+                print("Esperando ordenes...")
     except:
         pass
-    return rec
+    return {'text':rec, 'status':status}
 
 running = True
+talk(f"Hola, soy {assistent_name}, ¿En qué puedo ayudarte?")
 def run():
-    rec = listen()
+    rec_data = listen()
 
-    if 'reproduce' in rec:
-        video = rec.replace('reproduce', '')
-        talk('Reproduciendo'+ video)
-        pywhatkit.playonyt(video)
+    rec = rec_data['text']
+    status = rec_data['status']
 
-    elif 'hora' in rec:
-        hora = datetime.datetime.now().strftime('%I:%M %p')
-        talk('Son las'+ hora)
+    if status:
+        if 'estas ahi' in rec:
+                talk('Estoy a tu servicio')
 
-    elif 'investiga' in rec:
-        search = rec.replace('investiga', '')
-        talk('Investigando'+ search)
-        info = wikipedia.summary(search, 1)
-        talk(info)
-    
-    elif 'chiste' in rec:
-        talk(pyjokes.get_joke(language='es', category='all'))
+        if 'reproduce' in rec:
+            video = rec.replace('reproduce', '')
+            talk('Reproduciendo'+ video)
+            pywhatkit.playonyt(video)
 
-    elif 'adios' or 'salir' or 'terminar' in rec:
-        talk('Hasta luego')
-        exit()
+        elif 'hora' in rec:
+            hora = datetime.datetime.now().strftime('%I:%M %p')
+            talk('Son las'+ hora)
 
-    else:
-        talk('No te he entendido, repite por favor')
+        elif 'investiga' in rec:
+            search = rec.replace('investiga', '')
+            talk('Investigando'+ search)
+            info = wikipedia.summary(search, 1)
+            talk(info)
+        
+        elif 'chiste' in rec:
+            talk(pyjokes.get_joke(language='es', category='all'))
+
+        elif 'adios' or 'salir' or 'terminar' in rec:
+            talk('Hasta luego')
+            exit()
+
+        else:
+            talk('No te he entendido, repite por favor')
 
 def exit():
     global running
