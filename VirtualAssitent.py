@@ -34,6 +34,10 @@ def listen():
 def run():
     rec = listen()
 
+    if 'reproduce' in rec:
+        video = rec.replace('reproduce', '')
+        talk('Reproduciendo'+ video)
+        pywhatkit.playonyt(video)
     
 
 run()
