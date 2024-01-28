@@ -44,10 +44,14 @@ def run():
         hora = datetime.datetime.now().strftime('%I:%M %p')
         talk('Son las'+ hora)
 
-    elif 'que es' in rec:
-        search = rec.replace('Qué es', '')
+    elif 'investiga' in rec:
+        search = rec.replace('Investiga', '')
         talk('Investigando'+ search)
         info = wikipedia.summary(search, 1)
         talk(info)
+    
+    else:
+        talk('No te he entendido, repite por favor')
 
-run()
+while True:
+    run()
