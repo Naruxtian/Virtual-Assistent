@@ -3,6 +3,7 @@ import pyttsx3
 import pywhatkit
 import datetime
 import wikipedia
+import pyjokes
 
 assistent_name = 'Cortana'
 
@@ -32,6 +33,7 @@ def listen():
         pass
     return rec
 
+running = True
 def run():
     rec = listen()
 
@@ -50,8 +52,19 @@ def run():
         info = wikipedia.summary(search, 1)
         talk(info)
     
+    elif 'chiste' in rec:
+        talk(pyjokes.get_joke(language='es', category='all'))
+
+    elif 'adios' or 'salir' or 'terminar' in rec:
+        talk('Hasta luego')
+        exit()
+
     else:
         talk('No te he entendido, repite por favor')
 
-while True:
+def exit():
+    global running
+    running = False
+
+while running:
     run()
