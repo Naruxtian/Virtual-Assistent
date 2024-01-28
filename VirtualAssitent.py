@@ -47,7 +47,7 @@ def run():
         talk('Son las'+ hora)
 
     elif 'investiga' in rec:
-        search = rec.replace('Investiga', '')
+        search = rec.replace('investiga', '')
         talk('Investigando'+ search)
         info = wikipedia.summary(search, 1)
         talk(info)
